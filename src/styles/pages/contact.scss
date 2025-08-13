@@ -1,0 +1,83 @@
+@import "../variables";
+@import "../mixins";
+
+.contact-page {
+    padding: $space-6 0;
+    background: $color-gray-1;
+    height: calc(100vh - 14rem);
+
+    @media (max-width: $bp-md) {
+        height: auto;
+    }
+
+    &__header {
+        @include container;
+        max-width: 800px;
+        text-align: center;
+        margin: 0 auto $space-6;
+
+        h1 {
+            font-size: 2.25rem;
+            margin-bottom: $space-2;
+            color: $color-green-2;
+        }
+        p {
+            color: $color-gray-5;
+            font-size: 1.125rem;
+            margin-bottom: $space-4;
+        }
+    }
+
+    &__grid {
+        @include container;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: $space-4;
+    }
+
+    &__card {
+        display: grid;
+        grid-template-columns: 56px 1fr;
+        gap: $space-2;
+        align-items: center;
+
+        background: $color-white;
+        border: 1px solid $color-gray-2;
+        border-radius: $radius-2;
+        padding: $space-3;
+        text-decoration: none;
+        color: inherit;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        transition: transform $dur-1 $easing, box-shadow $dur-1 $easing, border-color $dur-1 $easing;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+            border-color: rgba(120, 171, 70, 0.35);
+        }
+    }
+
+    &__icon {
+        width: 56px;
+        height: 56px;
+        border-radius: $radius-1;
+        display: grid;
+        place-items: center;
+        background: rgba(120, 171, 70, 0.12);
+        color: $color-green-2;
+
+        svg {
+            display: block;
+        }
+    }
+
+    &__body h3 {
+        margin: 0 0 $space-1 0;
+        font-size: $fs-300;
+        color: $color-black;
+    }
+    &__body p {
+        margin: 0;
+        color: $color-gray-5;
+    }
+}

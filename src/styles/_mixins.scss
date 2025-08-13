@@ -1,0 +1,19 @@
+@mixin container {
+    width: min(1200px, 100% - 2 * $space-2);
+    margin-inline: auto;
+}
+
+@mixin button-base {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-1;
+    padding: 0.875rem 1.25rem;
+    border-radius: $radius-1;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform $dur-1 $easing, background-color $dur-1 $easing, color $dur-1 $easing;
+    will-change: transform;
+    &:active {
+        transform: translateY(1px);
+    }
+}

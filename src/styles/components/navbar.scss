@@ -1,0 +1,191 @@
+@import "../variables";
+@import "../mixins";
+
+/* Z‑Indizes: Navbar > Panel > Overlay > Seite */
+$z-navbar: 1000;
+$z-overlay: 1001;
+$z-panel: 1002;
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: $z-navbar;
+    background: $color-white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    backdrop-filter: saturate(180%) blur(6px);
+
+    &__inner {
+        @include container;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: $space-2;
+        padding: $space-2 0;
+        position: relative; /* eigener Stacking-Context */
+        z-index: $z-navbar; /* sicher über Overlay */
+    }
+
+    &__brand a {
+        display: inline-flex;
+        align-items: center;
+        gap: $space-2;
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: $color-green-2;
+        padding: 0.25rem 0.5rem;
+        border-radius: $radius-1;
+        &:hover {
+            color: $color-green-1;
+        }
+    }
+    .navbar__icon {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 0.5rem;
+        object-fit: cover;
+    }
+
+    &__toggle {
+        display: none;
+        position: relative;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: $color-white;
+        z-index: $z-navbar; /* über Overlay */
+        .bar {
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            height: 2px;
+            background: $color-black;
+            transition: transform $dur-1 $easing, opacity $dur-1 $easing;
+        }
+        .bar:nth-child(1) {
+            top: 12px;
+        }
+        .bar:nth-child(2) {
+            top: 19px;
+        }
+        .bar:nth-child(3) {
+            top: 26px;
+        }
+        &.is-open {
+            .bar:nth-child(1) {
+                transform: translateY(7px) rotate(45deg);
+            }
+            .bar:nth-child(2) {
+                opacity: 0;
+            }
+            .bar:nth-child(3) {
+                transform: translateY(-7px) rotate(-45deg);
+            }
+        }
+    }
+
+    /* Desktop/Tablet Links */
+    &__links--desktop {
+        display: flex;
+        gap: $space-3;
+        align-items: center;
+        a {
+            padding: 0.5rem 0.25rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            &:hover {
+                color: $color-green-1;
+            }
+            &.active {
+                color: $color-green-2;
+                background: rgba(120, 171, 70, 0.1);
+            }
+        }
+    }
+
+    /* Overlay – bedeckt den ganzen Viewport, aber liegt UNTER Navbar/Panel */
+    &__overlay {
+        height: 100vh;
+        margin-top: 5.8rem;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(2px);
+        z-index: $z-overlay;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity $dur-2 $easing;
+    }
+    &.is-open .navbar__overlay {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* Mobile Panel – off‑canvas below header */
+    &__links--mobile {
+        display: none; /* hidden by default (Desktop) */
+    }
+
+    /* ===== Mobile Styles ===== */
+    @media (max-width: $bp-md) {
+        &__toggle {
+            display: inline-block;
+        }
+        &__links--desktop {
+            display: none;
+        }
+
+        &__links--mobile {
+            display: grid;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: var(--navbar-height, 64px); /* direkt unter der Navbar */
+            z-index: $z-panel;
+            background: $color-white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            transform: translateY(-8px);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform $dur-2 $easing, opacity $dur-2 $easing;
+
+            /* Tap-Ziele + Safe-Area */
+            padding-bottom: max($space-2, env(safe-area-inset-bottom));
+            a {
+                display: block;
+                padding: 1rem $space-3;
+                font-size: 1.125rem;
+                line-height: 1.4;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+                &:last-child {
+                    border-bottom: 0;
+                }
+                &.active {
+                    background: rgba(120, 171, 70, 0.12);
+                    color: $color-green-2;
+                }
+            }
+
+            &.is-open {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+    }
+}
+
+/* Scroll-Lock nur wenn offen */
+html.nav-open,
+html.nav-open body {
+    overflow: hidden;
+    height: 100%;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .navbar,
+    .navbar * {
+        transition: none !important;
+    }
+}

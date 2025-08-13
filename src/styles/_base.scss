@@ -1,0 +1,69 @@
+@import "variables";
+
+* {
+    box-sizing: border-box;
+}
+html,
+body,
+#root {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: $font-family-base;
+    color: $color-black;
+    background: $color-white;
+    font-size: $fs-200;
+    line-height: 1.6;
+}
+
+/* Sanfte Page-Enter-Animation (nur wenn JS aktiv) */
+.js .fade-in,
+.js .reveal-up {
+    opacity: 0;
+    transform: translateY(10px);
+}
+.ready .fade-in,
+.ready .reveal-up {
+    opacity: 1;
+    transform: none;
+    transition: opacity $dur-2 $easing, transform $dur-2 $easing;
+}
+
+/* Reduziere Animationen, wenn Nutzer das wünscht */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* Buttons */
+.btn {
+    @include button-base;
+    &--primary {
+        background: $color-green-1;
+        color: $color-white;
+        &:hover {
+            background: $color-green-2;
+        }
+    }
+    &--ghost {
+        border: 1px solid $color-black;
+        color: $color-white;
+        background: $color-black;
+        &:hover {
+            color: $color-green-1;
+        }
+    }
+}

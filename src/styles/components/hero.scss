@@ -1,0 +1,49 @@
+@import "../variables";
+@import "../mixins";
+
+.hero {
+    position: relative;
+    min-height: clamp(70vh, 80vh, 90vh);
+    display: grid;
+    place-items: center;
+    isolation: isolate; /* für Overlay-Layers */
+    overflow: hidden;
+
+    /* Parallax-artiger, leicht animierter Hintergrund */
+    &__bg {
+        position: absolute;
+        inset: 0;
+        transform: scale(1.03);
+        transition: transform 1200ms $easing;
+        z-index: -1;
+    }
+    .ready &__bg {
+        transform: scale(1);
+    }
+
+    &__content {
+        @include container;
+        text-align: center;
+        color: $color-white;
+        display: grid;
+        gap: $space-3;
+        padding: $space-4 0;
+    }
+
+    &__title {
+        font-size: $fs-600;
+        font-weight: 900;
+        letter-spacing: 0.3px;
+    }
+    &__subtitle {
+        font-size: $fs-300;
+        opacity: 0.95;
+    }
+
+    &__actions {
+        display: flex;
+        gap: $space-2;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}

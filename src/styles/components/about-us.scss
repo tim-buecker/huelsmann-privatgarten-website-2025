@@ -1,0 +1,79 @@
+@import "../variables";
+@import "../mixins";
+
+.about-us {
+    padding: $space-4 0;
+    background: $color-gray-2;
+
+    &__inner {
+        @include container;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: $space-4;
+        align-items: center;
+    }
+
+    &__text {
+        h2 {
+            font-size: $fs-400;
+            margin-bottom: $space-2;
+        }
+        p {
+            margin-bottom: $space-2;
+        }
+    }
+
+    &__image {
+        /* Container steuert Größe – Höhe bleibt kontrolliert */
+        width: 100%;
+        max-width: 520px;
+        aspect-ratio: 4 / 3; /* gleichmäßiges Verhältnis */
+        border-radius: $radius-1;
+        overflow: hidden;
+        box-shadow: $shadow-1;
+
+        /* Fokuspunkt-Variablen (Default: leicht nach oben versetzt) */
+        --focus-x: 50%;
+        --focus-y: 35%;
+    }
+
+    &__photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: var(--focus-x) var(--focus-y);
+        display: block;
+    }
+
+    /* Helferklassen für unterschiedliche Motive */
+    .focus-top-center {
+        --focus-x: 50%;
+        --focus-y: 20%;
+    }
+    .focus-center-left {
+        --focus-x: 30%;
+        --focus-y: 40%;
+    }
+    .focus-center-right {
+        --focus-x: 70%;
+        --focus-y: 40%;
+    }
+    .focus-bottom-center {
+        --focus-x: 50%;
+        --focus-y: 75%;
+    }
+
+    @media (max-width: $bp-md) {
+        &__image {
+            aspect-ratio: 3 / 2;
+            margin: auto;
+        } /* mobil etwas breiterer Schnitt */
+    }
+
+    @media (max-width: $bp-md) {
+        &__inner {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+    }
+}
